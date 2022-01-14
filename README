@@ -1,1 +1,18 @@
-
+TODO
+=======
+- AddCron
+- GetCron
+- DeleteCron
+- SetMusic
+- SetAdjust
+- SetBackgroundAdjust
+- AdjustBright
+- AdjustBackgroundBright
+- AdjustColorTemperature
+- AdjustBackgroundColorTemperature
+- AdjustColor
+- AdjustBackgroundColor
+- StartColorFlow
+- StartBackgroundColorFlow
+- StopColorFlow
+- StopBackgroundColorFlow

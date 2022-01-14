@@ -16,6 +16,7 @@ func buildDiscovery(parent *cobra.Command, discovery discoveryFn) {
 		const timeoutFlag = "timeout"
 
 		cmd.Short = "Find devices in local network"
+		cmd.Long = "Application use SSDP protocol to search devices in the local network"
 
 		cmd.Flags().Duration(timeoutFlag, 5*time.Second, "timeout")
 

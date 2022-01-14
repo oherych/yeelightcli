@@ -9,27 +9,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func buildPower(parent *cobra.Command, build clientBuilder) {
-	helper.BuildCommand(parent, "power", func(cmd *cobra.Command) {
-		cmd.Short = "Power control"
-
-		buildPowerOnOff(cmd, build, "on", "Turn on device", true)
-		buildPowerOnOff(cmd, build, "off", "Turn off device", false)
-		buildPowerToggle(cmd, build)
-	})
-}
-
 func buildPowerOnOff(parent *cobra.Command, build clientBuilder, use string, short string, on bool) {
 	helper.BuildCommand(parent, use+" [host]", func(cmd *cobra.Command) {
 		cmd.Example = fmt.Sprintf("  %s %s", cmd.CommandPath(), exampleDomain)
 		cmd.Short = short
-		cmd.Args = cobra.ExactValidArgs(1)
 
 		flags.InjectEffect(cmd)
 		flags.InjectDurationFlag(cmd)
 		flags.InjectPowerMode(cmd)
+		flags.InjectBackground(cmd)
+		flags.InjectAddress(cmd)
 
 		cmd.RunE = func(cmd *cobra.Command, args []string) error {
+			address, err := flags.ReadAddress(cmd)
+			if err != nil {
+				return err
+			}
+
 			effect, err := flags.ReadEffect(cmd)
 			if err != nil {
 				return err
@@ -45,7 +41,16 @@ func buildPowerOnOff(parent *cobra.Command, build clientBuilder, use string, sho
 				return err
 			}
 
-			return build(cmd, args[0]).Power(cmd.Context(), on, powerMode, effect, duration)
+			isBackground, err := flags.ReadBackground(cmd)
+			if err != nil {
+				return err
+			}
+
+			if isBackground {
+				return build(cmd, address).BackgroundPower(cmd.Context(), on, powerMode, effect, duration)
+			}
+
+			return build(cmd, address).Power(cmd.Context(), on, powerMode, effect, duration)
 		}
 	})
 
@@ -57,8 +62,31 @@ func buildPowerToggle(parent *cobra.Command, build clientBuilder) {
 		cmd.Short = "Toggle power"
 		cmd.Args = cobra.ExactValidArgs(1)
 
+		flags.InjectBackground(cmd)
+
 		cmd.RunE = func(cmd *cobra.Command, args []string) error {
+			isBackground, err := flags.ReadBackground(cmd)
+			if err != nil {
+				return err
+			}
+
+			if isBackground {
+				return build(cmd, args[0]).BackgroundToggle(cmd.Context())
+			}
+
 			return build(cmd, args[0]).Toggle(cmd.Context())
+		}
+	})
+}
+
+func buildDevToggle(parent *cobra.Command, build clientBuilder) {
+	helper.BuildCommand(parent, "device_toggle", func(cmd *cobra.Command) {
+		cmd.Example = fmt.Sprintf("  %s %s", cmd.CommandPath(), exampleDomain)
+		cmd.Short = "------"
+		cmd.Args = cobra.ExactValidArgs(1)
+
+		cmd.RunE = func(cmd *cobra.Command, args []string) error {
+			return build(cmd, args[0]).DevToggle(cmd.Context())
 		}
 	})
 }

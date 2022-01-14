@@ -5,3 +5,4 @@ import (
 )
 
 type Interface = yeelight.Client
+

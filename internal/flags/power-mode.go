@@ -34,13 +34,17 @@ func InjectPowerMode(cmd *cobra.Command) {
 		labels[i] = option.Label
 	}
 
-	cmd.Flags().String(FlagPowerMode, "default", fmt.Sprintf("Power mode (%s)", strings.Join(labels, ", ")))
+	cmd.Flags().String(FlagPowerMode, "", fmt.Sprintf("Power mode (%s)", strings.Join(labels, ", ")))
 }
 
 func ReadPowerMode(cmd *cobra.Command) (yeelight.PowerMode, error) {
 	val, err := cmd.Flags().GetString(FlagPowerMode)
 	if err != nil {
 		return 0, err
+	}
+
+	if val == "" {
+		return yeelight.PowerModeDefault, nil
 	}
 
 	for _, option := range powerModeValues {
