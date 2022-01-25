@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -14,7 +13,6 @@ func main() {
 	root := commands.Root(filepath.Base(os.Args[0]), helper.Client, yeelight.Discovery)
 
 	if err := root.Execute(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 }

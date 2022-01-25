@@ -1,6 +1,9 @@
 package flags
 
-import "github.com/spf13/cobra"
+import (
+	"errors"
+	"github.com/spf13/cobra"
+)
 
 const (
 	flagAddress = "address"
@@ -16,4 +19,14 @@ func InjectAddress(cmd *cobra.Command) {
 
 func ReadAddress(cmd *cobra.Command) (string, error) {
 	return cmd.Flags().GetString(flagAddress)
+}
+
+func HostsArg() cobra.PositionalArgs {
+	return func(cmd *cobra.Command, args []string) error {
+		if len(args) == 0 {
+			return errors.New("[host] is required")
+		}
+
+		return nil
+	}
 }

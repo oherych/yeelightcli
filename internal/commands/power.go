@@ -13,19 +13,14 @@ func buildPowerOnOff(parent *cobra.Command, build clientBuilder, use string, sho
 	helper.BuildCommand(parent, use+" [host]", func(cmd *cobra.Command) {
 		cmd.Example = fmt.Sprintf("  %s %s", cmd.CommandPath(), exampleDomain)
 		cmd.Short = short
+		cmd.Args = flags.HostsArg()
 
 		flags.InjectEffect(cmd)
 		flags.InjectDurationFlag(cmd)
 		flags.InjectPowerMode(cmd)
 		flags.InjectBackground(cmd)
-		flags.InjectAddress(cmd)
 
 		cmd.RunE = func(cmd *cobra.Command, args []string) error {
-			address, err := flags.ReadAddress(cmd)
-			if err != nil {
-				return err
-			}
-
 			effect, err := flags.ReadEffect(cmd)
 			if err != nil {
 				return err
@@ -47,10 +42,10 @@ func buildPowerOnOff(parent *cobra.Command, build clientBuilder, use string, sho
 			}
 
 			if isBackground {
-				return build(cmd, address).BackgroundPower(cmd.Context(), on, powerMode, effect, duration)
+				return build(cmd, args[0]).BackgroundPower(cmd.Context(), on, powerMode, effect, duration)
 			}
 
-			return build(cmd, address).Power(cmd.Context(), on, powerMode, effect, duration)
+			return build(cmd, args[0]).Power(cmd.Context(), on, powerMode, effect, duration)
 		}
 	})
 
@@ -60,7 +55,7 @@ func buildPowerToggle(parent *cobra.Command, build clientBuilder) {
 	helper.BuildCommand(parent, "toggle", func(cmd *cobra.Command) {
 		cmd.Example = fmt.Sprintf("  %s %s", cmd.CommandPath(), exampleDomain)
 		cmd.Short = "Toggle power"
-		cmd.Args = cobra.ExactValidArgs(1)
+		cmd.Args = flags.HostsArg()
 
 		flags.InjectBackground(cmd)
 
@@ -83,7 +78,7 @@ func buildDevToggle(parent *cobra.Command, build clientBuilder) {
 	helper.BuildCommand(parent, "device_toggle", func(cmd *cobra.Command) {
 		cmd.Example = fmt.Sprintf("  %s %s", cmd.CommandPath(), exampleDomain)
 		cmd.Short = "------"
-		cmd.Args = cobra.ExactValidArgs(1)
+		cmd.Args = flags.HostsArg()
 
 		cmd.RunE = func(cmd *cobra.Command, args []string) error {
 			return build(cmd, args[0]).DevToggle(cmd.Context())

@@ -3,7 +3,8 @@ package commands
 import (
 	"context"
 	"errors"
-	"fmt"
+	"github.com/olekukonko/tablewriter"
+	"strings"
 	"time"
 
 	"github.com/oherych/yeelightcli/internal/helper"
@@ -34,7 +35,21 @@ func buildDiscovery(parent *cobra.Command, discovery discoveryFn) {
 				return err
 			}
 
-			fmt.Println(items)
+			table := tablewriter.NewWriter(cmd.OutOrStdout())
+			table.SetHeader([]string{"Location", "Name", "Model/Version", "ID", "Support"})
+
+			for _, device := range items {
+				table.Append([]string{
+					device.Location,
+					device.Name,
+					device.Model + " [V:" + device.FirmwareVersion + "]",
+					device.ID,
+					strings.Join(device.Support, ", "),
+				})
+
+			}
+
+			table.Render()
 
 			return nil
 		}

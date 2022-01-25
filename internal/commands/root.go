@@ -31,11 +31,13 @@ func Root(applicationName string, build clientBuilder, discovery discoveryFn) *c
 
 	buildDocs(command)
 	buildDiscovery(command, discovery)
+
+	// Temporary disabled not completed features
+	//buildPowerOnOff(command, build, "on", "Turn on device", true)
+	//buildPowerOnOff(command, build, "off", "Turn off device", false)
 	//buildGet(command, build)
 	//buildSetName(command, build)
 	//buildCron(command, build)
-	//buildPowerOnOff(command, build, "on", "Turn on device", true)
-	//buildPowerOnOff(command, build, "off", "Turn off device", false)
 	//buildPowerToggle(command, build)
 	//buildDevToggle(command, build)
 	//buildSetRGB(command, build)
