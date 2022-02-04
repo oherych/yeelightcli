@@ -1,62 +1,48 @@
 package commands
 
 import (
-	"context"
-	"github.com/oherych/yeelight"
-	"github.com/oherych/yeelightcli/internal"
+	"github.com/oherych/yeelightcli/internal/commands/cron"
+	"github.com/oherych/yeelightcli/internal/commands/power"
+	"github.com/oherych/yeelightcli/internal/commands/set"
 	"github.com/oherych/yeelightcli/internal/flags"
+	"github.com/oherych/yeelightcli/internal/helper"
 	"github.com/spf13/cobra"
-	"github.com/spf13/cobra/doc"
 )
 
-const (
-	exampleDomain = "192.168.1.79:55443"
-)
-
-type clientBuilder func(command *cobra.Command, host string) internal.Interface
-type discoveryFn func(ctx context.Context) (items []yeelight.DiscoveryResultItem, err error)
-
-func Root(applicationName string, build clientBuilder, discovery discoveryFn) *cobra.Command {
-	cobra.EnableCommandSorting = false
-
-	command := &cobra.Command{
-		Use:               applicationName,
-		Short:             "CLI for manipulation Yeelight devises",
-		Long:              "",
-		SilenceUsage:      true,
-		CompletionOptions: cobra.CompletionOptions{DisableDefaultCmd: true},
-	}
-
-	flags.InjectVerboseFlag(command)
-
-	buildDocs(command)
-	buildDiscovery(command, discovery)
-
-	// Temporary disabled not completed features
-	//buildPowerOnOff(command, build, "on", "Turn on device", true)
-	//buildPowerOnOff(command, build, "off", "Turn off device", false)
-	//buildGet(command, build)
-	//buildSetName(command, build)
-	//buildCron(command, build)
-	//buildPowerToggle(command, build)
-	//buildDevToggle(command, build)
-	//buildSetRGB(command, build)
-	//buildSetBright(command, build)
-	//buildSetColorTemperature(command, build)
-	//buildSetHSV(command, build)
-	//buildDefault(command, build)
-
-	return command
+type RootCommand struct {
+	applicationName string
+	build           helper.ClientBuilder
+	discovery       helper.DiscoveryFn
 }
 
-func buildDocs(command *cobra.Command) {
-	const docFolder = "doc"
+func (r RootCommand) Args() []helper.Arg {
+	return nil
+}
 
-	command.AddCommand(&cobra.Command{
-		Use:    "_doc",
-		Hidden: true,
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return doc.GenMarkdownTree(command, docFolder)
-		},
-	})
+func (r RootCommand) Use() string {
+	return r.applicationName
+}
+
+func (r RootCommand) Short(_ *cobra.Command) string {
+	return "CLI for manipulation Yeelight devises"
+}
+
+func (r RootCommand) Long(_ *cobra.Command) string {
+	return ""
+}
+
+func (r RootCommand) Flags(cmd *cobra.Command) {
+	flags.InjectVerboseFlag(cmd)
+}
+
+func (r RootCommand) SubCommand(cmd *cobra.Command) []helper.Command {
+	return []helper.Command{
+		DocsCommand{},
+		DiscoveryCommand{discovery: r.discovery},
+		power.Root{Build: r.build},
+		set.Root{Build: r.build},
+		DefaultCommand{build: r.build},
+		cron.Root{Build: r.build},
+		GetCommand{build: r.build},
+	}
 }
