@@ -10,30 +10,26 @@ type DevToggleCommand struct {
 	build helper.ClientBuilder
 }
 
-func (d DevToggleCommand) Use() string {
+func (c DevToggleCommand) Use() string {
 	return "dev-toggle"
 }
 
-func (d DevToggleCommand) Short(cmd *cobra.Command) string {
-	return "------"
+func (c DevToggleCommand) Short(cmd *cobra.Command) string {
+	return "Toggle both the main and background light at the same time"
 }
 
-func (d DevToggleCommand) Long(cmd *cobra.Command) string {
+func (c DevToggleCommand) Long(cmd *cobra.Command) string {
 	return ""
 }
 
-func (d DevToggleCommand) Flags(cmd *cobra.Command) {
+func (c DevToggleCommand) Flags(cmd *cobra.Command) {
 
 }
 
-func (d DevToggleCommand) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
-}
-
-func (r DevToggleCommand) Args() []helper.Arg {
+func (c DevToggleCommand) Args() []helper.Arg {
 	return []helper.Arg{arguments.HostArg{}}
 }
 
-func (d DevToggleCommand) Run(cmd *cobra.Command, args []string) error {
-	return d.build(cmd, args[0]).DevToggle(cmd.Context())
+func (c DevToggleCommand) Run(cmd *cobra.Command, args []string) error {
+	return c.build(cmd, args[0]).DevToggle(cmd.Context())
 }

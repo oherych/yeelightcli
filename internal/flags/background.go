@@ -12,6 +12,15 @@ func InjectBackground(cmd *cobra.Command) {
 	cmd.Flags().Bool(flagBackground, false, "apply for background")
 }
 
-func ReadBackground(cmd *cobra.Command) (bool, error) {
-	return cmd.Flags().GetBool(flagBackground)
+func RunInBackground(cmd *cobra.Command, main, background func() error) error {
+	isBackground, err := cmd.Flags().GetBool(flagBackground)
+	if err != nil {
+		return err
+	}
+
+	if isBackground {
+		return background()
+	}
+
+	return main()
 }

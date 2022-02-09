@@ -2,6 +2,7 @@ package cron
 
 import (
 	"fmt"
+
 	"github.com/oherych/yeelightcli/internal/arguments"
 	"github.com/oherych/yeelightcli/internal/helper"
 
@@ -28,16 +29,22 @@ func (c Get) Flags(cmd *cobra.Command) {
 
 }
 
-func (c Get) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
-}
-
 func (c Get) Args() []helper.Arg {
-	return []helper.Arg{arguments.HostArg{}}
+	return []helper.Arg{arguments.HostArg{}, arguments.OffOn{}}
 }
 
 func (c Get) Run(cmd *cobra.Command, args []string) error {
-	d, err := c.build(cmd, args[0]).GetCron(cmd.Context(), false)
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
+	on, err := arguments.OffOn{}.Read(args[1])
+	if err != nil {
+		return err
+	}
+
+	d, err := c.build(cmd, host).GetCron(cmd.Context(), on)
 	if err != nil {
 		return err
 	}

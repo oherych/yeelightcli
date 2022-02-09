@@ -2,8 +2,6 @@ package commands
 
 import (
 	"github.com/oherych/yeelightcli/internal/arguments"
-	"strings"
-
 	"github.com/oherych/yeelightcli/internal/helper"
 	"github.com/olekukonko/tablewriter"
 
@@ -27,11 +25,7 @@ func (g GetCommand) Long(cmd *cobra.Command) string {
 }
 
 func (g GetCommand) Flags(cmd *cobra.Command) {
-	cmd.Args = cobra.ExactArgs(2)
-}
 
-func (g GetCommand) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
 }
 
 func (r GetCommand) Args() []helper.Arg {
@@ -39,9 +33,9 @@ func (r GetCommand) Args() []helper.Arg {
 }
 
 func (g GetCommand) Run(cmd *cobra.Command, args []string) error {
-	properties := strings.Split(args[1], ",")
-	for i := range properties {
-		properties[i] = strings.TrimSpace(properties[i])
+	properties, err := arguments.Properties{}.Read(args[1])
+	if err != nil {
+		return err
 	}
 
 	result, err := g.build(cmd, args[0]).GetProperties(cmd.Context(), properties)

@@ -5,7 +5,6 @@ import (
 	"github.com/oherych/yeelightcli/internal/flags"
 	"github.com/oherych/yeelightcli/internal/helper"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 type ColorTemperature struct {
@@ -17,7 +16,7 @@ func (c ColorTemperature) Use() string {
 }
 
 func (c ColorTemperature) Short(cmd *cobra.Command) string {
-	return "-----"
+	return "Change color temperature"
 }
 
 func (c ColorTemperature) Long(cmd *cobra.Command) string {
@@ -28,10 +27,6 @@ func (c ColorTemperature) Flags(cmd *cobra.Command) {
 	flags.InjectEffect(cmd)
 	flags.InjectDurationFlag(cmd)
 	flags.InjectBackground(cmd)
-}
-
-func (c ColorTemperature) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
 }
 
 func (c ColorTemperature) Args() []helper.Arg {
@@ -49,19 +44,17 @@ func (c ColorTemperature) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	colorTemperature, err := strconv.Atoi(args[1])
+	colorTemperature, err := arguments.ColorTemperatureArg{}.Read(args[1])
 	if err != nil {
 		return err
 	}
 
-	isBackground, err := flags.ReadBackground(cmd)
-	if err != nil {
-		return err
-	}
-
-	if isBackground {
-		return c.Build(cmd, args[0]).SetBackgroundColorTemperature(cmd.Context(), colorTemperature, effect, duration)
-	}
-
-	return c.Build(cmd, args[0]).SetColorTemperature(cmd.Context(), colorTemperature, effect, duration)
+	return flags.RunInBackground(cmd,
+		func() error {
+			return c.Build(cmd, args[0]).SetColorTemperature(cmd.Context(), colorTemperature, effect, duration)
+		},
+		func() error {
+			return c.Build(cmd, args[0]).SetBackgroundColorTemperature(cmd.Context(), colorTemperature, effect, duration)
+		},
+	)
 }

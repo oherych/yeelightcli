@@ -16,7 +16,7 @@ func (h Hsv) Use() string {
 }
 
 func (h Hsv) Short(cmd *cobra.Command) string {
-	return "----"
+	return "Change hue and saturation"
 }
 
 func (h Hsv) Long(cmd *cobra.Command) string {
@@ -29,15 +29,21 @@ func (h Hsv) Flags(cmd *cobra.Command) {
 	flags.InjectBackground(cmd)
 }
 
-func (h Hsv) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
-}
-
 func (h Hsv) Args() []helper.Arg {
-	return []helper.Arg{arguments.HostArg{}, arguments.HsvArg{}}
+	return []helper.Arg{arguments.HostArg{}, arguments.HueArg{}, arguments.SatArg{}}
 }
 
 func (h Hsv) Run(cmd *cobra.Command, args []string) error {
+	hue, err := arguments.HueArg{}.Read(args[1])
+	if err != nil {
+		return err
+	}
+
+	sat, err := arguments.SatArg{}.Read(args[1])
+	if err != nil {
+		return err
+	}
+
 	effect, err := flags.ReadEffect(cmd)
 	if err != nil {
 		return err
@@ -48,16 +54,12 @@ func (h Hsv) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	// TODO
-
-	isBackground, err := flags.ReadBackground(cmd)
-	if err != nil {
-		return err
-	}
-
-	if isBackground {
-		return h.Build(cmd, args[0]).SetBackgroundHSV(cmd.Context(), 0, 0, effect, duration)
-	}
-
-	return h.Build(cmd, args[0]).SetHSV(cmd.Context(), 0, 0, effect, duration)
+	return flags.RunInBackground(cmd,
+		func() error {
+			return h.Build(cmd, args[0]).SetHSV(cmd.Context(), hue, sat, effect, duration)
+		},
+		func() error {
+			return h.Build(cmd, args[0]).SetBackgroundHSV(cmd.Context(), hue, sat, effect, duration)
+		},
+	)
 }

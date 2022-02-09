@@ -7,37 +7,33 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Bright struct {
+type Brightness struct {
 	Build helper.ClientBuilder
 }
 
-func (c Bright) Use() string {
-	return "bright"
+func (c Brightness) Use() string {
+	return "brightness"
 }
 
-func (c Bright) Short(cmd *cobra.Command) string {
-	return "Set the brightness"
+func (c Brightness) Short(cmd *cobra.Command) string {
+	return "Change brightness"
 }
 
-func (c Bright) Long(cmd *cobra.Command) string {
+func (c Brightness) Long(cmd *cobra.Command) string {
 	return ""
 }
 
-func (c Bright) Flags(cmd *cobra.Command) {
+func (c Brightness) Flags(cmd *cobra.Command) {
 	flags.InjectEffect(cmd)
 	flags.InjectDurationFlag(cmd)
 	flags.InjectBackground(cmd)
 }
 
-func (c Bright) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
-}
-
-func (c Bright) Args() []helper.Arg {
+func (c Brightness) Args() []helper.Arg {
 	return []helper.Arg{arguments.HostArg{}, arguments.Bright{}}
 }
 
-func (c Bright) Run(cmd *cobra.Command, args []string) error {
+func (c Brightness) Run(cmd *cobra.Command, args []string) error {
 	effect, err := flags.ReadEffect(cmd)
 	if err != nil {
 		return err
@@ -53,14 +49,12 @@ func (c Bright) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	isBackground, err := flags.ReadBackground(cmd)
-	if err != nil {
-		return err
-	}
-
-	if isBackground {
-		return c.Build(cmd, args[0]).SetBackgroundBright(cmd.Context(), bright, effect, duration)
-	}
-
-	return c.Build(cmd, args[0]).SetBright(cmd.Context(), bright, effect, duration)
+	return flags.RunInBackground(cmd,
+		func() error {
+			return c.Build(cmd, args[0]).SetBright(cmd.Context(), bright, effect, duration)
+		},
+		func() error {
+			return c.Build(cmd, args[0]).SetBackgroundBright(cmd.Context(), bright, effect, duration)
+		},
+	)
 }

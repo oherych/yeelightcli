@@ -24,13 +24,7 @@ func (d DefaultCommand) Long(cmd *cobra.Command) string {
 }
 
 func (d DefaultCommand) Flags(cmd *cobra.Command) {
-	cmd.Args = cobra.NoArgs
-
 	flags.InjectBackground(cmd)
-}
-
-func (d DefaultCommand) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
 }
 
 func (r DefaultCommand) Args() []helper.Arg {
@@ -38,14 +32,12 @@ func (r DefaultCommand) Args() []helper.Arg {
 }
 
 func (d DefaultCommand) Run(cmd *cobra.Command, args []string) error {
-	isBackground, err := flags.ReadBackground(cmd)
-	if err != nil {
-		return err
-	}
-
-	if isBackground {
-		return d.build(cmd, args[0]).SetBackgroundDefault(cmd.Context())
-	}
-
-	return d.build(cmd, args[0]).SetDefault(cmd.Context())
+	return flags.RunInBackground(cmd,
+		func() error {
+			return d.build(cmd, args[0]).SetDefault(cmd.Context())
+		},
+		func() error {
+			return d.build(cmd, args[0]).SetBackgroundDefault(cmd.Context())
+		},
+	)
 }

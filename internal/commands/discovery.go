@@ -3,9 +3,10 @@ package commands
 import (
 	"context"
 	"errors"
-	"github.com/oherych/yeelightcli/internal/helper"
 	"strings"
 	"time"
+
+	"github.com/oherych/yeelightcli/internal/helper"
 
 	"github.com/oherych/yeelight"
 	"github.com/olekukonko/tablewriter"
@@ -24,22 +25,20 @@ func (c DiscoveryCommand) Use() string {
 }
 
 func (c DiscoveryCommand) Short(cmd *cobra.Command) string {
-	return "Find devices in local network"
+	return "Discovers all the devices in the local network"
 }
 
 func (c DiscoveryCommand) Long(cmd *cobra.Command) string {
-	return "Application use SSDP protocol to search devices in the local network"
+	// TODO: add note about router blocking the feature and SSDP limitations
+
+	return "Searches devices in the local network via SSDP protocol."
 }
 
 func (c DiscoveryCommand) Flags(cmd *cobra.Command) {
 	cmd.Flags().Duration(timeoutFlag, 5*time.Second, "timeout")
 }
 
-func (c DiscoveryCommand) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
-}
-
-func (r DiscoveryCommand) Args() []helper.Arg {
+func (c DiscoveryCommand) Args() []helper.Arg {
 	return nil
 }
 

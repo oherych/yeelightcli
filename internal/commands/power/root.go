@@ -14,7 +14,7 @@ func (r Root) Use() string {
 }
 
 func (r Root) Short(cmd *cobra.Command) string {
-	return "Power control"
+	return "Switches the light on/off"
 }
 
 func (r Root) Long(cmd *cobra.Command) string {

@@ -15,7 +15,7 @@ func (n Name) Use() string {
 }
 
 func (n Name) Short(cmd *cobra.Command) string {
-	return "Set device name"
+	return "Change device name"
 }
 
 func (n Name) Long(cmd *cobra.Command) string {
@@ -28,10 +28,6 @@ func (n Name) Flags(cmd *cobra.Command) {
 
 func (n Name) Args() []helper.Arg {
 	return []helper.Arg{arguments.HostArg{}, arguments.NameArg{}}
-}
-
-func (n Name) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
 }
 
 func (n Name) Run(cmd *cobra.Command, args []string) error {

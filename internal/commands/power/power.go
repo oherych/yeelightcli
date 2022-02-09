@@ -23,10 +23,10 @@ func (c OnOff) Use() string {
 
 func (c OnOff) Short(cmd *cobra.Command) string {
 	if c.isOn {
-		return "Turn on device"
+		return "Switch the light on"
 	}
 
-	return "Turn off device"
+	return "Switch the light off"
 }
 
 func (c OnOff) Long(cmd *cobra.Command) string {
@@ -38,10 +38,6 @@ func (c OnOff) Flags(cmd *cobra.Command) {
 	flags.InjectDurationFlag(cmd)
 	flags.InjectPowerMode(cmd)
 	flags.InjectBackground(cmd)
-}
-
-func (c OnOff) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
 }
 
 func (c OnOff) Args() []helper.Arg {
@@ -64,14 +60,12 @@ func (c OnOff) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	isBackground, err := flags.ReadBackground(cmd)
-	if err != nil {
-		return err
-	}
-
-	if isBackground {
-		return c.build(cmd, args[0]).BackgroundPower(cmd.Context(), c.isOn, powerMode, effect, duration)
-	}
-
-	return c.build(cmd, args[0]).Power(cmd.Context(), c.isOn, powerMode, effect, duration)
+	return flags.RunInBackground(cmd,
+		func() error {
+			return c.build(cmd, args[0]).Power(cmd.Context(), c.isOn, powerMode, effect, duration)
+		},
+		func() error {
+			return c.build(cmd, args[0]).BackgroundPower(cmd.Context(), c.isOn, powerMode, effect, duration)
+		},
+	)
 }

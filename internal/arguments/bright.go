@@ -1,6 +1,9 @@
 package arguments
 
-import "strconv"
+import (
+	"github.com/oherych/yeelight"
+	"strconv"
+)
 
 type Bright struct{}
 
@@ -14,7 +17,7 @@ func (a Bright) Example() string {
 
 func (a Bright) Read(in string) (int, error) {
 	val, err := strconv.Atoi(in)
-	if err != nil || val < 1 || val > 100 {
+	if err != nil || yeelight.ValidateBright(val) != nil {
 		return 0, standardError(a)
 	}
 

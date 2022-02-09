@@ -27,7 +27,7 @@ func (r Root) SubCommand(cmd *cobra.Command) []helper.Command {
 	return []helper.Command{
 		Name{build: r.Build},
 		Rgb{Build: r.Build},
-		Bright{Build: r.Build},
+		Brightness{Build: r.Build},
 		ColorTemperature{Build: r.Build},
 		Hsv{Build: r.Build},
 	}

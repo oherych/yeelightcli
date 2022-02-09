@@ -16,7 +16,7 @@ func (r Rgb) Use() string {
 }
 
 func (r Rgb) Short(cmd *cobra.Command) string {
-	return "Set color of lamp"
+	return "Change color"
 }
 
 func (r Rgb) Long(cmd *cobra.Command) string {
@@ -27,10 +27,6 @@ func (r Rgb) Flags(cmd *cobra.Command) {
 	flags.InjectEffect(cmd)
 	flags.InjectDurationFlag(cmd)
 	flags.InjectBackground(cmd)
-}
-
-func (r Rgb) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
 }
 
 func (r Rgb) Args() []helper.Arg {
@@ -53,14 +49,12 @@ func (r Rgb) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	isBackground, err := flags.ReadBackground(cmd)
-	if err != nil {
-		return err
-	}
-
-	if isBackground {
-		return r.Build(cmd, args[0]).SetBackgroundRGB(cmd.Context(), color, effect, duration)
-	}
-
-	return r.Build(cmd, args[0]).SetRGB(cmd.Context(), color, effect, duration)
+	return flags.RunInBackground(cmd,
+		func() error {
+			return r.Build(cmd, args[0]).SetRGB(cmd.Context(), color, effect, duration)
+		},
+		func() error {
+			return r.Build(cmd, args[0]).SetBackgroundRGB(cmd.Context(), color, effect, duration)
+		},
+	)
 }

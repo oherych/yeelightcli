@@ -9,7 +9,6 @@ type Command interface {
 	Short(cmd *cobra.Command) string
 	Long(cmd *cobra.Command) string
 	Flags(cmd *cobra.Command)
-	SubCommand(cmd *cobra.Command) []Command
 	Args() []Arg
 }
 
@@ -19,4 +18,8 @@ type CommandExample interface {
 
 type CommandRun interface {
 	Run(cmd *cobra.Command, args []string) error
+}
+
+type CommandSubCommand interface {
+	SubCommand(cmd *cobra.Command) []Command
 }

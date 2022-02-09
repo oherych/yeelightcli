@@ -48,12 +48,15 @@ func initCommand(base *cobra.Command, spec helper.Command) {
 
 	spec.Flags(base)
 
-	for _, sub := range spec.SubCommand(base) {
-		cmd := &cobra.Command{}
-		base.AddCommand(cmd)
+	if imp, ok := spec.(helper.CommandSubCommand); ok {
+		for _, sub := range imp.SubCommand(base) {
+			cmd := &cobra.Command{}
+			base.AddCommand(cmd)
 
-		initCommand(cmd, sub)
+			initCommand(cmd, sub)
+		}
 	}
+
 }
 
 func buildUsage(spec helper.Command) string {

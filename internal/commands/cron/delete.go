@@ -26,14 +26,20 @@ func (c Delete) Flags(cmd *cobra.Command) {
 
 }
 
-func (c Delete) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
-}
-
 func (c Delete) Args() []helper.Arg {
-	return []helper.Arg{arguments.HostArg{}}
+	return []helper.Arg{arguments.HostArg{}, arguments.OffOn{}}
 }
 
 func (c Delete) Run(cmd *cobra.Command, args []string) error {
-	return c.build(cmd, args[0]).DeleteCron(cmd.Context(), false)
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
+	on, err := arguments.OffOn{}.Read(args[1])
+	if err != nil {
+		return err
+	}
+
+	return c.build(cmd, host).DeleteCron(cmd.Context(), on)
 }

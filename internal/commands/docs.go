@@ -8,10 +8,6 @@ import (
 
 type DocsCommand struct{}
 
-func (c DocsCommand) SubCommand(cmd *cobra.Command) []helper.Command {
-	return nil
-}
-
 func (c DocsCommand) Use() string {
 	return "_doc"
 }
@@ -35,5 +31,5 @@ func (c DocsCommand) Args() []helper.Arg {
 func (c DocsCommand) Run(cmd *cobra.Command, args []string) error {
 	const docFolder = "doc"
 
-	return doc.GenMarkdownTree(cmd, docFolder)
+	return doc.GenMarkdownTree(cmd.Root(), docFolder)
 }
