@@ -1,8 +1,5 @@
 name: Tests
 
-permissions:
-  contents: write
-
 on:
   push: {branches: [ master ]}
   pull_request: {branches: [ master ]}
@@ -21,10 +18,10 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - uses: ./.github/workflows/releaser
-
   releaser:
+    needs: [build]
     runs-on: ubuntu-latest
+    permissions: {contents: write}
     steps:
       - uses: actions/checkout@v2
 
