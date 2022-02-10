@@ -1,29 +1,43 @@
 package commands
 
 import (
+	"github.com/oherych/yeelightcli/internal/arguments"
 	"github.com/oherych/yeelightcli/internal/flags"
 	"github.com/oherych/yeelightcli/internal/helper"
 	"github.com/spf13/cobra"
 )
 
-func buildDefault(parent *cobra.Command, build clientBuilder) {
-	helper.BuildCommand(parent, "default", func(cmd *cobra.Command) {
-		cmd.Short = "------"
-		cmd.Args = cobra.NoArgs
+type DefaultCommand struct {
+	build helper.ClientBuilder
+}
 
-		flags.InjectBackground(cmd)
+func (d DefaultCommand) Use() string {
+	return "default"
+}
 
-		cmd.RunE = func(cmd *cobra.Command, args []string) error {
-			isBackground, err := flags.ReadBackground(cmd)
-			if err != nil {
-				return err
-			}
+func (d DefaultCommand) Short(cmd *cobra.Command) string {
+	return "------"
+}
 
-			if isBackground {
-				return build(cmd, args[0]).SetBackgroundDefault(cmd.Context())
-			}
+func (d DefaultCommand) Long(cmd *cobra.Command) string {
+	return ""
+}
 
-			return build(cmd, args[0]).SetDefault(cmd.Context())
-		}
-	})
+func (d DefaultCommand) Flags(cmd *cobra.Command) {
+	flags.InjectBackground(cmd)
+}
+
+func (r DefaultCommand) Args() []helper.Arg {
+	return []helper.Arg{arguments.HostArg{}}
+}
+
+func (d DefaultCommand) Run(cmd *cobra.Command, args []string) error {
+	return flags.RunInBackground(cmd,
+		func() error {
+			return d.build(cmd, args[0]).SetDefault(cmd.Context())
+		},
+		func() error {
+			return d.build(cmd, args[0]).SetBackgroundDefault(cmd.Context())
+		},
+	)
 }

@@ -1,12 +1,25 @@
 package helper
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/spf13/cobra"
+)
 
-func BuildCommand(parent *cobra.Command, use string, fn func(cmd *cobra.Command)) {
-	c := &cobra.Command{Use: use}
-	c.Flags().SortFlags = false
+type Command interface {
+	Use() string
+	Short(cmd *cobra.Command) string
+	Long(cmd *cobra.Command) string
+	Flags(cmd *cobra.Command)
+	Args() []Arg
+}
 
-	parent.AddCommand(c)
+type CommandExample interface {
+	Example(cmd *cobra.Command) string
+}
 
-	fn(c)
+type CommandRun interface {
+	Run(cmd *cobra.Command, args []string) error
+}
+
+type CommandSubCommand interface {
+	SubCommand(cmd *cobra.Command) []Command
 }
