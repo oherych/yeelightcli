@@ -3,6 +3,7 @@ package commands
 import (
 	"github.com/oherych/yeelightcli/internal/commands/adjust"
 	"github.com/oherych/yeelightcli/internal/commands/cron"
+	"github.com/oherych/yeelightcli/internal/commands/music"
 	"github.com/oherych/yeelightcli/internal/commands/power"
 	"github.com/oherych/yeelightcli/internal/commands/set"
 	"github.com/oherych/yeelightcli/internal/helper"
@@ -47,6 +48,7 @@ func (r RootCommand) SubCommand(cmd *cobra.Command) []helper.Command {
 		adjust.Root{Build: r.build},
 		DefaultCommand{build: r.build},
 		cron.Root{Build: r.build},
+		music.Root{Build: r.build},
 		Name{build: r.build},
 		GetCommand{build: r.build},
 	}
