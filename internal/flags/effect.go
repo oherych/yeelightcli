@@ -2,6 +2,7 @@ package flags
 
 import (
 	"fmt"
+	"github.com/oherych/yeelightcli/internal/helper"
 	"strings"
 
 	"github.com/oherych/yeelight"
@@ -45,5 +46,5 @@ func ReadEffect(cmd *cobra.Command) (yeelight.Effect, error) {
 		}
 	}
 
-	panic("TODO")
+	return "", helper.Error{Reason: "incorrect effect name"}
 }

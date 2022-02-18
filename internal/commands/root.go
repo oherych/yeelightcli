@@ -5,7 +5,6 @@ import (
 	"github.com/oherych/yeelightcli/internal/commands/cron"
 	"github.com/oherych/yeelightcli/internal/commands/power"
 	"github.com/oherych/yeelightcli/internal/commands/set"
-	"github.com/oherych/yeelightcli/internal/flags"
 	"github.com/oherych/yeelightcli/internal/helper"
 	"github.com/spf13/cobra"
 )
@@ -24,7 +23,7 @@ func (r RootCommand) Use() string {
 	return r.applicationName
 }
 
-func (r RootCommand) Short(_ *cobra.Command) string {
+func (r RootCommand) Short() string {
 	return ""
 }
 
@@ -36,7 +35,7 @@ More details: https://github.com/oherych/yeelightcli
 }
 
 func (r RootCommand) Flags(cmd *cobra.Command) {
-	flags.InjectVerboseFlag(cmd)
+
 }
 
 func (r RootCommand) SubCommand(cmd *cobra.Command) []helper.Command {
@@ -48,6 +47,7 @@ func (r RootCommand) SubCommand(cmd *cobra.Command) []helper.Command {
 		adjust.Root{Build: r.build},
 		DefaultCommand{build: r.build},
 		cron.Root{Build: r.build},
+		Name{build: r.build},
 		GetCommand{build: r.build},
 	}
 }

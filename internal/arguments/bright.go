@@ -1,6 +1,7 @@
 package arguments
 
 import (
+	"fmt"
 	"github.com/oherych/yeelight"
 	"strconv"
 )
@@ -13,6 +14,11 @@ func (a Bright) Name() string {
 
 func (a Bright) Example() string {
 	return "10"
+}
+
+func (a Bright) Description() string {
+	// TODO: add text
+	return fmt.Sprintf("Brightness value [%d - %d]", yeelight.MinBright, yeelight.MaxBright)
 }
 
 func (a Bright) Read(in string) (int, error) {

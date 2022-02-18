@@ -15,12 +15,9 @@ func (c Bright) Use() string {
 	return "brightness"
 }
 
-func (c Bright) Short(cmd *cobra.Command) string {
+func (c Bright) Short() string {
+	// TODO: check
 	return "-----"
-}
-
-func (c Bright) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c Bright) Flags(cmd *cobra.Command) {
@@ -33,6 +30,11 @@ func (c Bright) Args() []helper.Arg {
 }
 
 func (c Bright) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	percentage, err := arguments.Percentage{}.Read(args[1])
 	if err != nil {
 		return err
@@ -45,10 +47,10 @@ func (c Bright) Run(cmd *cobra.Command, args []string) error {
 
 	return flags.RunInBackground(cmd,
 		func() error {
-			return c.Build(cmd, args[0]).AdjustBright(cmd.Context(), percentage, duration)
+			return c.Build(cmd, host).AdjustBright(cmd.Context(), percentage, duration)
 		},
 		func() error {
-			return c.Build(cmd, args[0]).AdjustBackgroundBright(cmd.Context(), percentage, duration)
+			return c.Build(cmd, host).AdjustBackgroundBright(cmd.Context(), percentage, duration)
 		},
 	)
 }

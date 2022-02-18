@@ -15,12 +15,9 @@ func (c PowerToggleCommand) Use() string {
 	return "toggle"
 }
 
-func (c PowerToggleCommand) Short(cmd *cobra.Command) string {
+func (c PowerToggleCommand) Short() string {
+	// TODO: check
 	return "Toggle the light"
-}
-
-func (c PowerToggleCommand) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c PowerToggleCommand) Flags(cmd *cobra.Command) {
@@ -32,12 +29,17 @@ func (c PowerToggleCommand) Args() []helper.Arg {
 }
 
 func (c PowerToggleCommand) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	return flags.RunInBackground(cmd,
 		func() error {
-			return c.build(cmd, args[0]).Toggle(cmd.Context())
+			return c.build(cmd, host).Toggle(cmd.Context())
 		},
 		func() error {
-			return c.build(cmd, args[0]).BackgroundToggle(cmd.Context())
+			return c.build(cmd, host).BackgroundToggle(cmd.Context())
 		},
 	)
 }

@@ -13,15 +13,12 @@ type GetCommand struct {
 }
 
 func (g GetCommand) Use() string {
-	return "get [host] [parameter1,parameter2..]"
+	// TODO: check
+	return "get"
 }
 
-func (g GetCommand) Short(cmd *cobra.Command) string {
-	return "Read device values"
-}
-
-func (g GetCommand) Long(cmd *cobra.Command) string {
-	return ""
+func (g GetCommand) Short() string {
+	return "Fetch current device settings"
 }
 
 func (g GetCommand) Flags(cmd *cobra.Command) {
@@ -33,12 +30,17 @@ func (r GetCommand) Args() []helper.Arg {
 }
 
 func (g GetCommand) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	properties, err := arguments.Properties{}.Read(args[1])
 	if err != nil {
 		return err
 	}
 
-	result, err := g.build(cmd, args[0]).GetProperties(cmd.Context(), properties)
+	result, err := g.build(cmd, host).GetProperties(cmd.Context(), properties)
 	if err != nil {
 		return err
 	}

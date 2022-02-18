@@ -24,7 +24,7 @@ func (c DiscoveryCommand) Use() string {
 	return "discovery"
 }
 
-func (c DiscoveryCommand) Short(cmd *cobra.Command) string {
+func (c DiscoveryCommand) Short() string {
 	return "Discovers all the devices in the local network"
 }
 

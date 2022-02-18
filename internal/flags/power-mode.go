@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/oherych/yeelightcli/internal/helper"
+
 	"github.com/oherych/yeelight"
 	"github.com/spf13/cobra"
 )
@@ -53,5 +55,5 @@ func ReadPowerMode(cmd *cobra.Command) (yeelight.PowerMode, error) {
 		}
 	}
 
-	panic("TODO")
+	return 0, helper.Error{Reason: "incorrect power mode name"}
 }

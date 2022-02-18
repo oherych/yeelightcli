@@ -15,12 +15,9 @@ func (c ColorTemperature) Use() string {
 	return "ct"
 }
 
-func (c ColorTemperature) Short(cmd *cobra.Command) string {
+func (c ColorTemperature) Short() string {
+	// TODO: check
 	return "-----"
-}
-
-func (c ColorTemperature) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c ColorTemperature) Flags(cmd *cobra.Command) {
@@ -33,6 +30,11 @@ func (c ColorTemperature) Args() []helper.Arg {
 }
 
 func (c ColorTemperature) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	percentage, err := arguments.Percentage{}.Read(args[1])
 	if err != nil {
 		return err
@@ -45,10 +47,10 @@ func (c ColorTemperature) Run(cmd *cobra.Command, args []string) error {
 
 	return flags.RunInBackground(cmd,
 		func() error {
-			return c.Build(cmd, args[0]).AdjustColorTemperature(cmd.Context(), percentage, duration)
+			return c.Build(cmd, host).AdjustColorTemperature(cmd.Context(), percentage, duration)
 		},
 		func() error {
-			return c.Build(cmd, args[0]).AdjustBackgroundColorTemperature(cmd.Context(), percentage, duration)
+			return c.Build(cmd, host).AdjustBackgroundColorTemperature(cmd.Context(), percentage, duration)
 		},
 	)
 }

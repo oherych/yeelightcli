@@ -15,12 +15,8 @@ func (c Brightness) Use() string {
 	return "brightness"
 }
 
-func (c Brightness) Short(cmd *cobra.Command) string {
+func (c Brightness) Short() string {
 	return "Change brightness"
-}
-
-func (c Brightness) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c Brightness) Flags(cmd *cobra.Command) {
@@ -34,6 +30,11 @@ func (c Brightness) Args() []helper.Arg {
 }
 
 func (c Brightness) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	effect, err := flags.ReadEffect(cmd)
 	if err != nil {
 		return err
@@ -51,10 +52,10 @@ func (c Brightness) Run(cmd *cobra.Command, args []string) error {
 
 	return flags.RunInBackground(cmd,
 		func() error {
-			return c.Build(cmd, args[0]).SetBright(cmd.Context(), bright, effect, duration)
+			return c.Build(cmd, host).SetBright(cmd.Context(), bright, effect, duration)
 		},
 		func() error {
-			return c.Build(cmd, args[0]).SetBackgroundBright(cmd.Context(), bright, effect, duration)
+			return c.Build(cmd, host).SetBackgroundBright(cmd.Context(), bright, effect, duration)
 		},
 	)
 }

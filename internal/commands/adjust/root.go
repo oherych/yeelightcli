@@ -13,12 +13,8 @@ func (c Root) Use() string {
 	return "adjust"
 }
 
-func (c Root) Short(cmd *cobra.Command) string {
-	return "Adjust light"
-}
-
-func (c Root) Long(cmd *cobra.Command) string {
-	return ""
+func (c Root) Short() string {
+	return "Adjust the light parameter"
 }
 
 func (c Root) Flags(cmd *cobra.Command) {

@@ -1,8 +1,9 @@
 package arguments
 
 import (
-	"github.com/oherych/yeelight"
 	"strconv"
+
+	"github.com/oherych/yeelight"
 )
 
 type SatArg struct{}
@@ -12,6 +13,11 @@ func (a SatArg) Name() string {
 }
 
 func (a SatArg) Example() string {
+	return ""
+}
+
+func (a SatArg) Description() string {
+	// TODO: add text
 	return ""
 }
 

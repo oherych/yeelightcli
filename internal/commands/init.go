@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"strings"
+
 	"github.com/oherych/yeelightcli/internal/helper"
 	"github.com/spf13/cobra"
 )
@@ -24,8 +26,8 @@ func Root(applicationName string, build helper.ClientBuilder, discovery helper.D
 func initCommand(base *cobra.Command, spec helper.Command) {
 	base.SilenceUsage = true
 	base.Use = buildUsage(spec)
-	base.Short = spec.Short(base)
-	base.Long = spec.Long(base)
+	base.Short = spec.Short()
+	base.Long = buildLong(spec)
 
 	if imp, ok := spec.(helper.CommandExample); ok {
 		base.Example = imp.Example(base)
@@ -36,10 +38,7 @@ func initCommand(base *cobra.Command, spec helper.Command) {
 	if imp, ok := spec.(helper.CommandRun); ok {
 		base.RunE = func(cmd *cobra.Command, args []string) error {
 			if len(spec.Args()) != len(args) {
-				return helper.Error{
-					Reason:      "wrong number of arguments",
-					Instruction: "\n Examples:\n" + cmd.Example,
-				}
+				return base.Help()
 			}
 
 			return imp.Run(cmd, args)
@@ -57,6 +56,28 @@ func initCommand(base *cobra.Command, spec helper.Command) {
 		}
 	}
 
+}
+
+func buildLong(spec helper.Command) string {
+	var b strings.Builder
+	if s, ok := spec.(helper.CommandLong); ok {
+		b.WriteString(s.Long())
+	} else {
+		b.WriteString(spec.Short())
+	}
+
+	args := spec.Args()
+	if len(args) > 0 {
+		b.WriteString("\n\nArguments:")
+	}
+
+	for _, arg := range args {
+		b.WriteString("\n  ")
+
+		b.WriteString("[" + arg.Name() + "] - " + arg.Description())
+	}
+
+	return b.String()
 }
 
 func buildUsage(spec helper.Command) string {

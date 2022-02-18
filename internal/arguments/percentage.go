@@ -11,6 +11,11 @@ func (a Percentage) Name() string {
 	return "percentage"
 }
 
+func (a Percentage) Description() string {
+	// TODO: add text
+	return ""
+}
+
 func (a Percentage) Read(in string) (int, error) {
 	val, err := strconv.Atoi(in)
 	if err != nil || yeelight.ValidateAdjustPercentage(val) != nil {

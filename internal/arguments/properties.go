@@ -1,6 +1,9 @@
 package arguments
 
-import "strings"
+import (
+	"github.com/oherych/yeelight"
+	"strings"
+)
 
 type Properties struct{}
 
@@ -9,7 +12,12 @@ func (a Properties) Name() string {
 }
 
 func (a Properties) Example() string {
-	return "power,rgb"
+	return yeelight.PropertyPower + "," + yeelight.PropertyRGB
+}
+
+func (a Properties) Description() string {
+	return "Comma-separated list of properties. Can be used the next properties: " +
+		strings.Join(yeelight.Properties(), ", ")
 }
 
 func (a Properties) Read(in string) ([]string, error) {

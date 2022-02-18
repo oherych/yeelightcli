@@ -12,11 +12,7 @@ func (c DocsCommand) Use() string {
 	return "_doc"
 }
 
-func (c DocsCommand) Short(cmd *cobra.Command) string {
-	return ""
-}
-
-func (c DocsCommand) Long(cmd *cobra.Command) string {
+func (c DocsCommand) Short() string {
 	return ""
 }
 

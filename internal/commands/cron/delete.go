@@ -14,11 +14,8 @@ func (c Delete) Use() string {
 	return "delete"
 }
 
-func (c Delete) Short(cmd *cobra.Command) string {
-	return ""
-}
-
-func (c Delete) Long(cmd *cobra.Command) string {
+func (c Delete) Short() string {
+	// TODO: check
 	return ""
 }
 

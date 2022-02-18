@@ -17,12 +17,9 @@ func (c Get) Use() string {
 	return "get"
 }
 
-func (c Get) Short(cmd *cobra.Command) string {
+func (c Get) Short() string {
+	// TODO: check
 	return "Get current setting"
-}
-
-func (c Get) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c Get) Flags(cmd *cobra.Command) {

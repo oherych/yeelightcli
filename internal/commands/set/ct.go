@@ -15,12 +15,8 @@ func (c ColorTemperature) Use() string {
 	return "ct"
 }
 
-func (c ColorTemperature) Short(cmd *cobra.Command) string {
+func (c ColorTemperature) Short() string {
 	return "Change color temperature"
-}
-
-func (c ColorTemperature) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c ColorTemperature) Flags(cmd *cobra.Command) {
@@ -34,6 +30,11 @@ func (c ColorTemperature) Args() []helper.Arg {
 }
 
 func (c ColorTemperature) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	effect, err := flags.ReadEffect(cmd)
 	if err != nil {
 		return err
@@ -51,10 +52,10 @@ func (c ColorTemperature) Run(cmd *cobra.Command, args []string) error {
 
 	return flags.RunInBackground(cmd,
 		func() error {
-			return c.Build(cmd, args[0]).SetColorTemperature(cmd.Context(), colorTemperature, effect, duration)
+			return c.Build(cmd, host).SetColorTemperature(cmd.Context(), colorTemperature, effect, duration)
 		},
 		func() error {
-			return c.Build(cmd, args[0]).SetBackgroundColorTemperature(cmd.Context(), colorTemperature, effect, duration)
+			return c.Build(cmd, host).SetBackgroundColorTemperature(cmd.Context(), colorTemperature, effect, duration)
 		},
 	)
 }
