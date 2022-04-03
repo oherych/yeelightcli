@@ -15,12 +15,8 @@ func (h Hsv) Use() string {
 	return "hsv"
 }
 
-func (h Hsv) Short(cmd *cobra.Command) string {
+func (h Hsv) Short() string {
 	return "Change hue and saturation"
-}
-
-func (h Hsv) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (h Hsv) Flags(cmd *cobra.Command) {
@@ -34,12 +30,17 @@ func (h Hsv) Args() []helper.Arg {
 }
 
 func (h Hsv) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	hue, err := arguments.HueArg{}.Read(args[1])
 	if err != nil {
 		return err
 	}
 
-	sat, err := arguments.SatArg{}.Read(args[1])
+	sat, err := arguments.SatArg{}.Read(args[2])
 	if err != nil {
 		return err
 	}
@@ -56,10 +57,10 @@ func (h Hsv) Run(cmd *cobra.Command, args []string) error {
 
 	return flags.RunInBackground(cmd,
 		func() error {
-			return h.Build(cmd, args[0]).SetHSV(cmd.Context(), hue, sat, effect, duration)
+			return h.Build(cmd, host).SetHSV(cmd.Context(), hue, sat, effect, duration)
 		},
 		func() error {
-			return h.Build(cmd, args[0]).SetBackgroundHSV(cmd.Context(), hue, sat, effect, duration)
+			return h.Build(cmd, host).SetBackgroundHSV(cmd.Context(), hue, sat, effect, duration)
 		},
 	)
 }

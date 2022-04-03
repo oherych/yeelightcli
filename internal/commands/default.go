@@ -11,33 +11,34 @@ type DefaultCommand struct {
 	build helper.ClientBuilder
 }
 
-func (d DefaultCommand) Use() string {
+func (c DefaultCommand) Use() string {
 	return "default"
 }
 
-func (d DefaultCommand) Short(cmd *cobra.Command) string {
-	return "------"
+func (c DefaultCommand) Short() string {
+	return "Declare current light settings as default"
 }
 
-func (d DefaultCommand) Long(cmd *cobra.Command) string {
-	return ""
-}
-
-func (d DefaultCommand) Flags(cmd *cobra.Command) {
+func (c DefaultCommand) Flags(cmd *cobra.Command) {
 	flags.InjectBackground(cmd)
 }
 
-func (r DefaultCommand) Args() []helper.Arg {
+func (c DefaultCommand) Args() []helper.Arg {
 	return []helper.Arg{arguments.HostArg{}}
 }
 
-func (d DefaultCommand) Run(cmd *cobra.Command, args []string) error {
+func (c DefaultCommand) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	return flags.RunInBackground(cmd,
 		func() error {
-			return d.build(cmd, args[0]).SetDefault(cmd.Context())
+			return c.build(cmd, host).SetDefault(cmd.Context())
 		},
 		func() error {
-			return d.build(cmd, args[0]).SetBackgroundDefault(cmd.Context())
+			return c.build(cmd, host).SetBackgroundDefault(cmd.Context())
 		},
 	)
 }

@@ -21,16 +21,12 @@ func (c OnOff) Use() string {
 	return "off"
 }
 
-func (c OnOff) Short(cmd *cobra.Command) string {
+func (c OnOff) Short() string {
 	if c.isOn {
 		return "Switch the light on"
 	}
 
 	return "Switch the light off"
-}
-
-func (c OnOff) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c OnOff) Flags(cmd *cobra.Command) {
@@ -45,6 +41,11 @@ func (c OnOff) Args() []helper.Arg {
 }
 
 func (c OnOff) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	effect, err := flags.ReadEffect(cmd)
 	if err != nil {
 		return err
@@ -62,10 +63,10 @@ func (c OnOff) Run(cmd *cobra.Command, args []string) error {
 
 	return flags.RunInBackground(cmd,
 		func() error {
-			return c.build(cmd, args[0]).Power(cmd.Context(), c.isOn, powerMode, effect, duration)
+			return c.build(cmd, host).Power(cmd.Context(), c.isOn, powerMode, effect, duration)
 		},
 		func() error {
-			return c.build(cmd, args[0]).BackgroundPower(cmd.Context(), c.isOn, powerMode, effect, duration)
+			return c.build(cmd, host).BackgroundPower(cmd.Context(), c.isOn, powerMode, effect, duration)
 		},
 	)
 }

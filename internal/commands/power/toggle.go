@@ -7,37 +7,38 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type PowerToggleCommand struct {
+type ToggleCommand struct {
 	build helper.ClientBuilder
 }
 
-func (c PowerToggleCommand) Use() string {
+func (c ToggleCommand) Use() string {
 	return "toggle"
 }
 
-func (c PowerToggleCommand) Short(cmd *cobra.Command) string {
+func (c ToggleCommand) Short() string {
 	return "Toggle the light"
 }
 
-func (c PowerToggleCommand) Long(cmd *cobra.Command) string {
-	return ""
-}
-
-func (c PowerToggleCommand) Flags(cmd *cobra.Command) {
+func (c ToggleCommand) Flags(cmd *cobra.Command) {
 	flags.InjectBackground(cmd)
 }
 
-func (c PowerToggleCommand) Args() []helper.Arg {
+func (c ToggleCommand) Args() []helper.Arg {
 	return []helper.Arg{arguments.HostArg{}}
 }
 
-func (c PowerToggleCommand) Run(cmd *cobra.Command, args []string) error {
+func (c ToggleCommand) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	return flags.RunInBackground(cmd,
 		func() error {
-			return c.build(cmd, args[0]).Toggle(cmd.Context())
+			return c.build(cmd, host).Toggle(cmd.Context())
 		},
 		func() error {
-			return c.build(cmd, args[0]).BackgroundToggle(cmd.Context())
+			return c.build(cmd, host).BackgroundToggle(cmd.Context())
 		},
 	)
 }

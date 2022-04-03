@@ -9,7 +9,7 @@ const (
 )
 
 func InjectBackground(cmd *cobra.Command) {
-	cmd.Flags().Bool(flagBackground, false, "apply for background")
+	cmd.Flags().BoolP(flagBackground, "b", false, "apply for background")
 }
 
 func RunInBackground(cmd *cobra.Command, main, background func() error) error {

@@ -11,22 +11,18 @@ type Add struct {
 }
 
 func (c Add) Use() string {
-	return "add"
+	return "set"
 }
 
-func (c Add) Short(cmd *cobra.Command) string {
-	return "--"
-}
-
-func (c Add) Long(cmd *cobra.Command) string {
-	return ""
+func (c Add) Short() string {
+	return "Define timeout"
 }
 
 func (c Add) Flags(cmd *cobra.Command) {
 }
 
 func (c Add) Args() []helper.Arg {
-	return []helper.Arg{arguments.HostArg{}, arguments.OffOn{}, arguments.Duration{}}
+	return []helper.Arg{arguments.HostArg{}, arguments.OffOn{}, arguments.Minutes{}}
 }
 
 func (c Add) Run(cmd *cobra.Command, args []string) error {
@@ -40,7 +36,7 @@ func (c Add) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	duration, err := arguments.Duration{}.Read(args[2])
+	duration, err := arguments.Minutes{}.Read(args[2])
 	if err != nil {
 		return err
 	}

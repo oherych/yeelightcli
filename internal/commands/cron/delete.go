@@ -14,12 +14,8 @@ func (c Delete) Use() string {
 	return "delete"
 }
 
-func (c Delete) Short(cmd *cobra.Command) string {
-	return ""
-}
-
-func (c Delete) Long(cmd *cobra.Command) string {
-	return ""
+func (c Delete) Short() string {
+	return "Deactivate timeout"
 }
 
 func (c Delete) Flags(cmd *cobra.Command) {

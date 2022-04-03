@@ -13,12 +13,8 @@ func (c Root) Use() string {
 	return "cron"
 }
 
-func (c Root) Short(cmd *cobra.Command) string {
-	return "Timeout management"
-}
-
-func (c Root) Long(cmd *cobra.Command) string {
-	return ""
+func (c Root) Short() string {
+	return "Schedule light turn on/off"
 }
 
 func (c Root) Flags(cmd *cobra.Command) {

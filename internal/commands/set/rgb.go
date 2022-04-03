@@ -15,12 +15,8 @@ func (r Rgb) Use() string {
 	return "rgb"
 }
 
-func (r Rgb) Short(cmd *cobra.Command) string {
-	return "Change color"
-}
-
-func (r Rgb) Long(cmd *cobra.Command) string {
-	return ""
+func (r Rgb) Short() string {
+	return "Change RGB"
 }
 
 func (r Rgb) Flags(cmd *cobra.Command) {
@@ -34,6 +30,11 @@ func (r Rgb) Args() []helper.Arg {
 }
 
 func (r Rgb) Run(cmd *cobra.Command, args []string) error {
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
 	color, err := arguments.Rgb{}.Read(args[1])
 	if err != nil {
 		return err
@@ -51,10 +52,10 @@ func (r Rgb) Run(cmd *cobra.Command, args []string) error {
 
 	return flags.RunInBackground(cmd,
 		func() error {
-			return r.Build(cmd, args[0]).SetRGB(cmd.Context(), color, effect, duration)
+			return r.Build(cmd, host).SetRGB(cmd.Context(), color, effect, duration)
 		},
 		func() error {
-			return r.Build(cmd, args[0]).SetBackgroundRGB(cmd.Context(), color, effect, duration)
+			return r.Build(cmd, host).SetBackgroundRGB(cmd.Context(), color, effect, duration)
 		},
 	)
 }

@@ -24,13 +24,11 @@ func (c DiscoveryCommand) Use() string {
 	return "discovery"
 }
 
-func (c DiscoveryCommand) Short(cmd *cobra.Command) string {
+func (c DiscoveryCommand) Short() string {
 	return "Discovers all the devices in the local network"
 }
 
-func (c DiscoveryCommand) Long(cmd *cobra.Command) string {
-	// TODO: add note about router blocking the feature and SSDP limitations
-
+func (c DiscoveryCommand) Long() string {
 	return "Searches devices in the local network via SSDP protocol."
 }
 

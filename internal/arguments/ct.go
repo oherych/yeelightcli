@@ -1,6 +1,7 @@
 package arguments
 
 import (
+	"fmt"
 	"github.com/oherych/yeelight"
 	"strconv"
 )
@@ -13,6 +14,10 @@ func (a ColorTemperatureArg) Name() string {
 
 func (a ColorTemperatureArg) Example() string {
 	return "6500"
+}
+
+func (a ColorTemperatureArg) Description() string {
+	return fmt.Sprintf("Color temperature value in range %d - %d", yeelight.MinColorTemperature, yeelight.MaxColorTemperature)
 }
 
 func (a ColorTemperatureArg) Read(in string) (int, error) {

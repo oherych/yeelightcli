@@ -6,10 +6,13 @@ import (
 
 type Command interface {
 	Use() string
-	Short(cmd *cobra.Command) string
-	Long(cmd *cobra.Command) string
+	Short() string
 	Flags(cmd *cobra.Command)
 	Args() []Arg
+}
+
+type CommandLong interface {
+	Long() string
 }
 
 type CommandExample interface {

@@ -13,12 +13,8 @@ func (r Root) Use() string {
 	return "power"
 }
 
-func (r Root) Short(cmd *cobra.Command) string {
+func (r Root) Short() string {
 	return "Switches the light on/off"
-}
-
-func (r Root) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (r Root) Flags(cmd *cobra.Command) {
@@ -29,7 +25,7 @@ func (r Root) SubCommand(cmd *cobra.Command) []helper.Command {
 	return []helper.Command{
 		OnOff{build: r.Build, isOn: true},
 		OnOff{build: r.Build, isOn: false},
-		PowerToggleCommand{build: r.Build},
+		ToggleCommand{build: r.Build},
 		DevToggleCommand{build: r.Build},
 	}
 }

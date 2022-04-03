@@ -14,12 +14,8 @@ func (c DevToggleCommand) Use() string {
 	return "dev-toggle"
 }
 
-func (c DevToggleCommand) Short(cmd *cobra.Command) string {
+func (c DevToggleCommand) Short() string {
 	return "Toggle both the main and background light at the same time"
-}
-
-func (c DevToggleCommand) Long(cmd *cobra.Command) string {
-	return ""
 }
 
 func (c DevToggleCommand) Flags(cmd *cobra.Command) {
@@ -31,5 +27,10 @@ func (c DevToggleCommand) Args() []helper.Arg {
 }
 
 func (c DevToggleCommand) Run(cmd *cobra.Command, args []string) error {
-	return c.build(cmd, args[0]).DevToggle(cmd.Context())
+	host, err := arguments.HostArg{}.Read(args[0])
+	if err != nil {
+		return err
+	}
+
+	return c.build(cmd, host).DevToggle(cmd.Context())
 }

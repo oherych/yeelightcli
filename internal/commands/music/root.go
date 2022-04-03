@@ -1,4 +1,4 @@
-package adjust
+package music
 
 import (
 	"github.com/oherych/yeelightcli/internal/helper"
@@ -10,21 +10,19 @@ type Root struct {
 }
 
 func (c Root) Use() string {
-	return "adjust"
+	return "music"
 }
 
 func (c Root) Short() string {
-	return "Adjust the light parameter"
+	return "Start or stop music mode on a device"
 }
 
-func (c Root) Flags(cmd *cobra.Command) {
-}
+func (c Root) Flags(cmd *cobra.Command) {}
 
 func (c Root) SubCommand(cmd *cobra.Command) []helper.Command {
 	return []helper.Command{
-		Bright{Build: c.Build},
-		ColorTemperature{Build: c.Build},
-		Color{Build: c.Build},
+		On{Build: c.Build},
+		Off{Build: c.Build},
 	}
 }
 
