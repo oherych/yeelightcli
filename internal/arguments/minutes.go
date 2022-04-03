@@ -16,7 +16,6 @@ func (a Minutes) Example() string {
 }
 
 func (a Minutes) Description() string {
-	// TODO: add text
 	return "Timeout in minutes"
 }
 

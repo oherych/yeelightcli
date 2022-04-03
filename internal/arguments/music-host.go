@@ -12,13 +12,11 @@ func (a MusicHost) Name() string {
 }
 
 func (a MusicHost) Example() string {
-	// TODO:
-	return ""
+	return "192.168.23.4:55443"
 }
 
 func (a MusicHost) Description() string {
-	// TODO:
-	return ""
+	return "Host and port to audio server"
 }
 
 func (a MusicHost) Read(in string) (string, int, error) {

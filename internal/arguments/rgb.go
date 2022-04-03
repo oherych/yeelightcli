@@ -11,8 +11,7 @@ func (a Rgb) Name() string {
 }
 
 func (a Rgb) Description() string {
-	// TODO: add text
-	return ""
+	return "Color in RGB format"
 }
 
 func (a Rgb) Read(in string) (int, error) {

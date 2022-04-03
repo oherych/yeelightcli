@@ -17,8 +17,7 @@ func (a Bright) Example() string {
 }
 
 func (a Bright) Description() string {
-	// TODO: add text
-	return fmt.Sprintf("Brightness value [%d - %d]", yeelight.MinBright, yeelight.MaxBright)
+	return fmt.Sprintf("Brightness value in range %d - %d", yeelight.MinBright, yeelight.MaxBright)
 }
 
 func (a Bright) Read(in string) (int, error) {

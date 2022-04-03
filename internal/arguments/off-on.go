@@ -12,8 +12,7 @@ func (a OffOn) Example() string {
 }
 
 func (a OffOn) Description() string {
-	// TODO: add text
-	return ""
+	return "Turn on / turn off"
 }
 
 func (a OffOn) Read(in string) (bool, error) {

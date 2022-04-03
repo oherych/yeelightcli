@@ -25,7 +25,7 @@ func (c ColorTemperature) Flags(cmd *cobra.Command) {
 }
 
 func (c ColorTemperature) Args() []helper.Arg {
-	return []helper.Arg{arguments.HostArg{}, arguments.Percentage{}}
+	return []helper.Arg{arguments.HostArg{}, arguments.AdjustPercentage{}}
 }
 
 func (c ColorTemperature) Run(cmd *cobra.Command, args []string) error {
@@ -34,7 +34,7 @@ func (c ColorTemperature) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	percentage, err := arguments.Percentage{}.Read(args[1])
+	percentage, err := arguments.AdjustPercentage{}.Read(args[1])
 	if err != nil {
 		return err
 	}

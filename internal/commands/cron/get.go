@@ -1,8 +1,6 @@
 package cron
 
 import (
-	"fmt"
-
 	"github.com/oherych/yeelightcli/internal/arguments"
 	"github.com/oherych/yeelightcli/internal/helper"
 
@@ -45,7 +43,7 @@ func (c Get) Run(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	fmt.Println(d)
+	cmd.Println(d)
 
 	return nil
 }

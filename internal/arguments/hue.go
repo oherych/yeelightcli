@@ -1,6 +1,7 @@
 package arguments
 
 import (
+	"fmt"
 	"github.com/oherych/yeelight"
 	"strconv"
 )
@@ -16,8 +17,7 @@ func (a HueArg) Example() string {
 }
 
 func (a HueArg) Description() string {
-	// TODO: add text
-	return ""
+	return fmt.Sprintf("HUE value in range %d - %d", yeelight.MinHue, yeelight.MaxHue)
 }
 
 func (a HueArg) Read(in string) (int, error) {

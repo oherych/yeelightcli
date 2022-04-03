@@ -1,6 +1,7 @@
 package arguments
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/oherych/yeelight"
@@ -17,8 +18,7 @@ func (a SatArg) Example() string {
 }
 
 func (a SatArg) Description() string {
-	// TODO: add text
-	return ""
+	return fmt.Sprintf("Saturation value in range %d - %d", yeelight.MinSat, yeelight.MaxSat)
 }
 
 func (a SatArg) Read(in string) (int, error) {

@@ -17,8 +17,7 @@ func (a ColorTemperatureArg) Example() string {
 }
 
 func (a ColorTemperatureArg) Description() string {
-	// TODO: add text
-	return fmt.Sprintf("Color temperature value [%d - %d]", yeelight.MinColorTemperature, yeelight.MaxColorTemperature)
+	return fmt.Sprintf("Color temperature value in range %d - %d", yeelight.MinColorTemperature, yeelight.MaxColorTemperature)
 }
 
 func (a ColorTemperatureArg) Read(in string) (int, error) {
