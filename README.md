@@ -34,3 +34,11 @@ Use "main [command] --help" for more information about a command.
 
 ```
 
+### TODO
+- SetAdjust
+- SetBackgoundAdjust
+- StartColorFlow
+- StartBackgroundColorFlow
+- StopColorFlow
+- StopBackgroundColorFlow
+- SetMusic
