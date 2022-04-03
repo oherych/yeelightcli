@@ -15,7 +15,6 @@ func (n Name) Use() string {
 }
 
 func (n Name) Short() string {
-	// TODO: check
 	return "Change device name"
 }
 

@@ -15,8 +15,7 @@ func (c Delete) Use() string {
 }
 
 func (c Delete) Short() string {
-	// TODO: check
-	return ""
+	return "Deactivate timeout"
 }
 
 func (c Delete) Flags(cmd *cobra.Command) {

@@ -15,8 +15,7 @@ func (c Off) Use() string {
 }
 
 func (c Off) Short() string {
-	// TODO: check
-	return "----"
+	return "Stop music"
 }
 
 func (c Off) Flags(cmd *cobra.Command) {

@@ -11,12 +11,11 @@ type Add struct {
 }
 
 func (c Add) Use() string {
-	return "add"
+	return "set"
 }
 
 func (c Add) Short() string {
-	// TODO: check
-	return "----"
+	return "Define timeout"
 }
 
 func (c Add) Flags(cmd *cobra.Command) {

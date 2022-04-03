@@ -13,8 +13,7 @@ type GetCommand struct {
 }
 
 func (g GetCommand) Use() string {
-	// TODO: check
-	return "get"
+	return "read"
 }
 
 func (g GetCommand) Short() string {

@@ -28,7 +28,7 @@ func (r RootCommand) Short() string {
 	return ""
 }
 
-func (r RootCommand) Long(_ *cobra.Command) string {
+func (r RootCommand) Long() string {
 	return `CLI for manipulation Yeelight devises
 
 More details: https://github.com/oherych/yeelightcli

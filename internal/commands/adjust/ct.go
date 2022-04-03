@@ -16,8 +16,7 @@ func (c ColorTemperature) Use() string {
 }
 
 func (c ColorTemperature) Short() string {
-	// TODO: check
-	return "-----"
+	return "Change color temperature"
 }
 
 func (c ColorTemperature) Flags(cmd *cobra.Command) {

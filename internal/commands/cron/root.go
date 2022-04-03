@@ -14,7 +14,6 @@ func (c Root) Use() string {
 }
 
 func (c Root) Short() string {
-	// TODO: check
 	return "Schedule light turn on/off"
 }
 

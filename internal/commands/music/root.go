@@ -14,12 +14,10 @@ func (c Root) Use() string {
 }
 
 func (c Root) Short() string {
-	// TODO: check
-	return "---"
+	return "Start or stop music mode on a device"
 }
 
-func (c Root) Flags(cmd *cobra.Command) {
-}
+func (c Root) Flags(cmd *cobra.Command) {}
 
 func (c Root) SubCommand(cmd *cobra.Command) []helper.Command {
 	return []helper.Command{

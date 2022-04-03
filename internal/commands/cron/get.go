@@ -18,8 +18,7 @@ func (c Get) Use() string {
 }
 
 func (c Get) Short() string {
-	// TODO: check
-	return "Get current setting"
+	return "Get timeout"
 }
 
 func (c Get) Flags(cmd *cobra.Command) {

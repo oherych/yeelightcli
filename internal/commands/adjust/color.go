@@ -16,8 +16,7 @@ func (c Color) Use() string {
 }
 
 func (c Color) Short() string {
-	// TODO: check
-	return "-----"
+	return "Change color value"
 }
 
 func (c Color) Flags(cmd *cobra.Command) {

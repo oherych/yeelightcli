@@ -25,7 +25,7 @@ func (r Root) SubCommand(cmd *cobra.Command) []helper.Command {
 	return []helper.Command{
 		OnOff{build: r.Build, isOn: true},
 		OnOff{build: r.Build, isOn: false},
-		PowerToggleCommand{build: r.Build},
+		ToggleCommand{build: r.Build},
 		DevToggleCommand{build: r.Build},
 	}
 }

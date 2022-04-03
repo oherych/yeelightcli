@@ -16,8 +16,7 @@ func (c Bright) Use() string {
 }
 
 func (c Bright) Short() string {
-	// TODO: check
-	return "-----"
+	return "Change brightness"
 }
 
 func (c Bright) Flags(cmd *cobra.Command) {

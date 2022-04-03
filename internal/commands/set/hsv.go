@@ -16,7 +16,6 @@ func (h Hsv) Use() string {
 }
 
 func (h Hsv) Short() string {
-	// TODO: check
 	return "Change hue and saturation"
 }
 

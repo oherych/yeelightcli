@@ -15,7 +15,6 @@ func (c DevToggleCommand) Use() string {
 }
 
 func (c DevToggleCommand) Short() string {
-	// TODO: check
 	return "Toggle both the main and background light at the same time"
 }
 
