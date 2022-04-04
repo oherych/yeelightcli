@@ -1,10 +1,23 @@
 builds:
-  - env:
-      - CGO_ENABLED=0
+  - env: ["CGO_ENABLED=0"]
     goos:
-      - linux
-      - windows
       - darwin
+      - windows
+      - linux
+      - freebsd
+    goarch:
+      - amd64
+      - arm64
+      - arm
+      - 386
+      - ppc64le
+      - s390x
+      - mips64
+      - mips64le
+      - riscv64
+    goarm:
+      - 6
+      - 7
 
 archives:
   - replacements:
@@ -28,6 +41,11 @@ changelog:
       - '^test:'
 
 brews:
-  - license: "MIT"
+  - tap:
+      owner: yeelightcli
+      name: homebrew-tap
+    folder: Formula
+    homepage: https://github.com/oherych/yeelightcli
+    description: Command-line tool for managing Yeelight devices. Right now it supports 95% of all features presented in the official documentation.
     test: |
       system "#{bin}/yeelightcli"
