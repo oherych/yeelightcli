@@ -1,27 +1,12 @@
 builds:
   - env: ["CGO_ENABLED=0"]
     goos:
-      - darwin
       - windows
+      - darwin
       - linux
-      - freebsd
-    goarch:
-      - amd64
-      - arm64
-      - arm
-      - 386
-      - ppc64le
-      - s390x
-      - mips64
-      - mips64le
-      - riscv64
-    goarm:
-      - 6
-      - 7
+
     ignore:
-      - goos: darwin
-        goarch: 386
-      - goos: freebsd
+      - goos: windows
         goarch: arm64
 
 archives:
