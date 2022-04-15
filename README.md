@@ -6,6 +6,12 @@ Right now it supports 95% of all features presented in the official documentatio
 ### Go
 `go install github.com/oherych/yeelightcli`
 
+### Brew
+```shell
+  brew tap oherych/yeelightcli
+  brew install yeelightcli
+```
+
 
 
 ## Usage
