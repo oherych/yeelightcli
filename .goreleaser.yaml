@@ -34,21 +34,21 @@ brews:
   - tap:
       owner: oherych
       name: homebrew-yeelightcli
-      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
+#      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
     folder: Formula
     homepage: https://github.com/oherych/yeelightcli
     description: Command-line tool for managing Yeelight devices. Right now it supports 95% of all features presented in the official documentation.
     test: |
       system "#{bin}/yeelightcli"
 
-nfpms:
-  -
-    id: yeelightcli
-    package_name: yeelightcli
-    file_name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
-    homepage: https://github.com/oherych/yeelightcli
-    description: Command-line tool for managing Yeelight devices. Right now it supports 95% of all features presented in the official documentation.
-    license: MIT
-    formats:
-      - deb
-      - rpm
+#nfpms:
+#  -
+#    id: yeelightcli
+#    package_name: yeelightcli
+#    file_name_template: "{{ .ProjectName }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+#    homepage: https://github.com/oherych/yeelightcli
+#    description: Command-line tool for managing Yeelight devices. Right now it supports 95% of all features presented in the official documentation.
+#    license: MIT
+#    formats:
+#      - deb
+#      - rpm
