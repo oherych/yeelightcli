@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v**'
-    branches:
-      - 'build'
 
 jobs:
   Releaser:
@@ -19,6 +17,6 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --rm-dist --skip-publish
+          args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
