@@ -33,7 +33,7 @@ changelog:
 brews:
   - tap:
       owner: oherych
-      name: yeelightcli
+      name: homebrew-yeelightcli
     folder: Formula
     homepage: https://github.com/oherych/yeelightcli
     description: Command-line tool for managing Yeelight devices. Right now it supports 95% of all features presented in the official documentation.
