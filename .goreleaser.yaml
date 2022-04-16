@@ -34,6 +34,7 @@ brews:
   - tap:
       owner: oherych
       name: homebrew-yeelightcli
+      token: "{{ .Env.TAP_GITHUB_TOKEN }}"
     folder: Formula
     homepage: https://github.com/oherych/yeelightcli
     description: Command-line tool for managing Yeelight devices. Right now it supports 95% of all features presented in the official documentation.
