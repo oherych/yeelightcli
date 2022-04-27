@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TAP_GITHUB_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
 
@@ -23,3 +25,11 @@ jobs:
 
       - name: Test
         run: go test -v ./...
+
+      - name: eeen1
+        run: echo $TAP_GITHUB_TOKEN | wc -c
+
+      - name: eeen2
+        env:
+          DDD: ${{ secrets.TAP_GITHUB_TOKEN }}
+        run: echo $DDD | wc -c
