@@ -33,3 +33,18 @@ jobs:
         env:
           DDD: ${{ secrets.TAP_GITHUB_TOKEN }}
         run: echo $DDD | wc -c
+
+      - name: eeen3
+        env:
+          DDD: ${{ env.TAP_GITHUB_TOKEN }}
+        run: echo $DDD | wc -c
+
+      - name: eeen4
+        env:
+          DDD: ${{ TAP_GITHUB_TOKEN }}
+        run: echo $DDD | wc -c
+
+      - name: eeen5
+        env:
+          DDD: ${{ deploy.TAP_GITHUB_TOKEN }}
+        run: echo $DDD | wc -c
