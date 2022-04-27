@@ -8,8 +8,6 @@ on:
 jobs:
   Releaser:
     runs-on: ubuntu-latest
-    env:
-      TAP_GITHUB_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
