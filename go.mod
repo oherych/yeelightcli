@@ -1,9 +1,9 @@
 module github.com/oherych/yeelightcli
 
-go 1.18
+go 1.20
 
 require (
-	github.com/oherych/yeelight v0.1.0
+	github.com/oherych/yeelight v1.0.1-0.20230303175148-f2288c1c2ba1
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.4.0
 	github.com/stretchr/testify v1.7.0
